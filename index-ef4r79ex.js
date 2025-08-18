@@ -1276,7 +1276,7 @@ var ghc_wasm_jsffi_default = (__exports) => {
 };
 
 // final.wasm
-var final_default = "./final-vdbfnwes.wasm";
+var final_default = "./final-xbns3z3f.wasm";
 
 // ghc_wasm.ts
 var wasi = new W({
