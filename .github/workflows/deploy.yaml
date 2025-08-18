@@ -16,12 +16,20 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
+
+      # Cache Nix store
+      - uses: actions/cache@v3
+        with:
+          path: |
+            /nix/store
+            ~/.cache/nix
+          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
+
       # Enter Nix shell and run build steps
       - name: Build with Nix
         run: |
-          nix shell 'gitlab:haskell-wasm/ghc-wasm-meta?host=gitlab.haskell.org' nixpkgs#bun --command sh init.sh;
-          nix shell 'gitlab:haskell-wasm/ghc-wasm-meta?host=gitlab.haskell.org' nixpkgs#bun --command sh build.sh;
-          "
+          nix develop . --command init.sh;
+          nix develop . --command build.sh;
 
       # Deploy to GitHub Pages
       - name: Deploy
