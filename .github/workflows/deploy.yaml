@@ -19,7 +19,7 @@ jobs:
       # Enter Nix shell and run build steps
       - name: Build with Nix
         run: |
-          nix shell 'gitlab:haskell-wasm/ghc-wasm-meta?host=gitlab.haskell.org' nixpkgs#bun --command bun install;
+          nix shell 'gitlab:haskell-wasm/ghc-wasm-meta?host=gitlab.haskell.org' nixpkgs#bun --command sh init.sh;
           nix shell 'gitlab:haskell-wasm/ghc-wasm-meta?host=gitlab.haskell.org' nixpkgs#bun --command sh build.sh;
           "
 
