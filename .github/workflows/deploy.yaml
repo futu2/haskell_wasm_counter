@@ -28,8 +28,8 @@ jobs:
       # Enter Nix shell and run build steps
       - name: Build with Nix
         run: |
-          nix develop . --command init.sh;
-          nix develop . --command build.sh;
+          nix develop . --command sh init.sh;
+          nix develop . --command sh build.sh;
 
       # Deploy to GitHub Pages
       - name: Deploy
