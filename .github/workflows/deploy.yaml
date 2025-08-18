@@ -16,6 +16,16 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
+      - name: Cache Cabal
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cabal/store
+            ~/.cabal/packages
+            dist-newstyle
+          key: ${{ runner.os }}-cabal-${{ hashFiles('cabal.project.freeze') }}
+          restore-keys: |
+            ${{ runner.os }}-cabal-
 
       # Cache Nix store
       - uses: actions/cache@v3
