@@ -1233,15 +1233,15 @@ var ghc_wasm_jsffi_default = (__exports) => {
     getJSVal: (k) => __ghc_wasm_jsffi_jsval_manager.getJSVal(k),
     freeJSVal: (k) => __ghc_wasm_jsffi_jsval_manager.freeJSVal(k),
     scheduleWork: () => setImmediate2(__exports.rts_schedulerLoop),
-    ZC1ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1, $2, $3) => {
+    ZC0ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1, $2, $3) => {
       $1.setAttribute($2, $3);
     },
-    ZC3ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1) => (...args) => __exports.ghczuwasmzujsffiZC2ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC($1, ...args),
-    ZC4ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1, $2, $3) => $1.addEventListener($2, $3),
-    ZC7ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1, $2) => $1.append($2),
-    ZC8ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1, $2) => $1.textContent = $2,
-    ZC9ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1) => document.createElement($1),
-    ZC10ZCcounterzm0zi1zi0zi0zminplacezmcounterZCMainZC: ($1) => document.getElementById($1),
+    ZC2ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1) => (...args) => __exports.ghczuwasmzujsffiZC1ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC($1, ...args),
+    ZC3ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1, $2, $3) => $1.addEventListener($2, $3),
+    ZC6ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1, $2) => $1.append($2),
+    ZC7ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1, $2) => $1.textContent = $2,
+    ZC8ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1) => document.createElement($1),
+    ZC9ZCcounterzm0zi1zi0zi0zminplacezmcounterZCPutusziJSFFIZC: ($1) => document.getElementById($1),
     ZC0ZCghczminternalZCGHCziInternalziWasmziPrimziExportsZC: ($1, $2) => $1.reject(new WebAssembly.RuntimeError($2)),
     ZC19ZCghczminternalZCGHCziInternalziWasmziPrimziExportsZC: ($1) => $1.resolve(),
     ZC20ZCghczminternalZCGHCziInternalziWasmziPrimziExportsZC: ($1) => {
@@ -1276,7 +1276,7 @@ var ghc_wasm_jsffi_default = (__exports) => {
 };
 
 // final.wasm
-var final_default = "./final-xbns3z3f.wasm";
+var final_default = "./final-4239ngx6.wasm";
 
 // ghc_wasm.ts
 var wasi = new W({
