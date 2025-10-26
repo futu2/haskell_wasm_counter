@@ -8,6 +8,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@picocss/pico": "^2.1.1",
     "@runno/wasi": "^0.10.0"
   }
 }
