@@ -1,6 +1,9 @@
 module Main where
 
 import Putus
+import Data.Foldable
+import Control.Monad
+import Control.Monad.IO.Class
 
 main :: IO ()
 main = undefined
@@ -11,34 +14,54 @@ setup :: IO ()
 setup = do
   putStrLn "start wasm!"
   runApp "app" $ do
-    el "h1" $ setTextContent "GHC Wasm"
-    counterApp
+    header_ $ do
+      setAttribute "class" "container"
+      hgroup_ $ do
+        h1_ $ text_ "GHC Wasm"
+        p_ $ text_ "using jsffi to manipulate dom"
+    main_ $ do
+      setAttribute "class" "container"
+      section_ $ counterApp
 
 counterApp :: AppM m => m ()
-counterApp = withSignal (0 :: Int) $ \(withCounter, updateCounter) -> do
-    el "h2" $ do
-      setTextContent "Counter App"
+counterApp = withSignal (0 :: Int) $ \counterSignal -> do
+    h2_ $ do
+      text_ "Counter App"
       setAttribute "class" "text-2xl font-bold mb-4"
 
-    let setButtonStyle = setAttribute "class" "btn btn-primary"
-    el "button" $ do
-      setTextContent "0"
-      setButtonStyle
-      addEventListener "click" (const $ updateCounter  (const 0))
-      
-    el "button" $ do
-      setTextContent "+"
-      setButtonStyle
-      addEventListener "click" (const $ updateCounter (\x -> if x == 99 then 0 else x + 1))
+    p_ $ text_ "a simple counter that works"
 
-    el "button" $ do
-      setTextContent "-"
-      setButtonStyle
-      addEventListener "click" (const $ updateCounter (\x -> if x == 0 then 99 else x - 1))
+    p_ $ do
+      setAttribute "class" "grid"
+      let setButtonStyle = setAttribute "class" "btn btn-primary"
+      button_ $ do
+        text_ "0"
+        setButtonStyle
+        onClick counterSignal (const 0)
+        
+      button_ $ do
+        text_ "+"
+        setButtonStyle
+        onClick counterSignal (\x -> if x == 99 then 0 else x + 1)
 
-    el "span" $ do
-      el "h1" $ do
-        withCounter $ \n -> setTextContent (show n)
+      button_ $ do
+        text_ "-"
+        setButtonStyle
+        onClick counterSignal (\x -> if x == 0 then 99 else x - 1)
 
-      el "h1" $ do
-        withCounter $ \n -> setTextContent (show (n * 8) <> "!")
+    span_ $ do
+      p_ $ do
+        useSignal counterSignal $ \n -> text_ (show n)
+
+      p_ $ do
+        useSignal counterSignal $ \n -> text_ (show (n * 8) <> "!")
+
+      progress_ $ do
+        setAttribute "max" "100"
+        useSignal counterSignal $ \n -> setAttribute "value" $ show n
+
+    h2_ $ text_ "from 1 to x"
+    reactSignal counterSignal $ \n -> do
+        when (n > 2) $ ul_ $ do
+          for_ [1..n] $ \x -> do
+            li_ $ p_ $ text_ (show x)

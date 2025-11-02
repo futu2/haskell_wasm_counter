@@ -16,10 +16,10 @@ executable counter
     import:           warnings, wasm-reactor
     main-is:          Main.hs
     build-depends:    base
-                    , ghc-experimental
-                    , bytestring
-                    , mtl
-                    , unliftio-core
+                    -- , ghc-experimental
+                    -- , bytestring
+                    -- , mtl
+                    -- , unliftio-core
+                    , putus
     hs-source-dirs:   src
-    other-modules: Putus, Putus.JSFFI
-    default-language: GHC2024
+    default-language: GHC2021
