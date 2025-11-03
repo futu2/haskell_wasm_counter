@@ -3,7 +3,6 @@ module Main where
 import Putus
 import Data.Foldable
 import Control.Monad
-import Control.Monad.IO.Class
 
 main :: IO ()
 main = undefined
