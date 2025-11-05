@@ -20,6 +20,6 @@ executable counter
                     -- , bytestring
                     -- , mtl
                     -- , unliftio-core
-                    , putus
+                    , putus >= 0.1.0.1
     hs-source-dirs:   src
     default-language: GHC2021
