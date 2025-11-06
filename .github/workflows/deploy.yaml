@@ -10,17 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Set up Nix
-      - uses: cachix/install-nix-action@v24
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
-      # Enter Nix shell and run build steps
-      - name: Build with Nix
+      # build without nix
+      - name: Build without Nix
         run: |
-          nix develop . --command sh init.sh;
-          nix develop . --command sh build.sh;
+          curl https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta/-/raw/master/bootstrap.sh | sh
+          source ~/.ghc-wasm/env
+          sh init.sh
+          sh build.sh
 
       # Deploy to GitHub Pages
       - name: Deploy
