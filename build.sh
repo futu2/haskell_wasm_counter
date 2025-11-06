@@ -1,4 +1,4 @@
-wasm_file_path="$(wasm32-wasi-cabal list-bin .)"
+wasm_file_path="$(wasm32-wasi-cabal list-bin . | tail -n 1)"
 lib_path="$(wasm32-wasi-ghc --print-libdir)" 
 echo "Built Wasm located in: $wasm_file_path"
 echo "GHC lib location: $lib_path"
