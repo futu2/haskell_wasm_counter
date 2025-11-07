@@ -5,6 +5,7 @@ import Data.Foldable
 import Control.Monad
 import Control.Monad.IO.Class
 import Control.Concurrent
+import Control.Arrow
 
 main :: IO ()
 main = undefined
@@ -23,6 +24,7 @@ setup = do
     main_ $ do
       class_ "container"
       section_ $ counterApp
+      section_ $ todoApp
 
 counterApp :: AppM m => m ()
 counterApp = withSignal (0 :: Int) $ \counterSignal -> withSignal False $ \timerRun -> do
@@ -56,7 +58,7 @@ counterApp = withSignal (0 :: Int) $ \counterSignal -> withSignal False $ \timer
       input_ $ do
         type_ "checkbox"
         role_ "switch"
-        onChange timerRun (\e -> const e)
+        onChangeChecked timerRun (\e -> const e)
 
     span_ $ do
       p_ $ do
@@ -71,6 +73,55 @@ counterApp = withSignal (0 :: Int) $ \counterSignal -> withSignal False $ \timer
 
     h2_ $ text_ "from 1 to x"
     reactSignal counterSignal $ \n -> do
-        when (n > 2) $ ul_ $ do
-          for_ [1..n] $ \x -> do
-            li_ $ p_ $ text_ (show x)
+      when (n > 2) $ ul_ $ do
+        for_ [1..n] $ \x -> do
+          li_ $ p_ $ text_ (show x)
+
+type TodoList = [(String, Bool)]
+
+todoApp :: AppM m => m ()
+todoApp = withSignal ([] :: TodoList)  $ \ todolist -> do
+  h2_ $ text_ "Todo List"
+  p_ $ text_ "what u wanna add"
+  withSignal "" $ \newTodoContent -> do
+    input_ $ do
+      type_ "text"
+      onInput newTodoContent const
+    reactSignal newTodoContent $ \ t -> do
+      button_ $ do
+        text_ $ "add new todo: " <> show t
+        onClick todolist (<> [(t, False)])
+  reactSignal todolist $ \tds -> do
+    ul_ $ do
+      for_ (zip [0..] tds) $ \(num, (t,tb)) -> do
+        li_ $ do
+          p_ $ text_ $ show num
+          input_ $ do
+            type_ "checkbox"
+            when tb $ setAttribute "checked" ""
+            onChangeChecked todolist $ \b -> updateNth num (second $ const b)
+          button_ $ do
+            text_ "x"
+            onClick todolist (removeNth num)
+          p_ $ text_ t
+          p_ $ text_ (show tb)
+
+updateNth :: Int -> (a -> a) -> [a] -> [a]
+updateNth _ _ [] = []
+updateNth n f xs
+  | n < 0     = xs
+  | otherwise = go n xs
+  where
+    go 0 (y:rest) = f y : rest
+    go i (y:rest) = y : go (i-1) rest
+    go _ []       = []   -- index beyond list length
+
+removeNth :: Int -> [a] -> [a]
+removeNth _ [] = []
+removeNth n xs
+  | n < 0     = xs
+  | otherwise = go n xs
+  where
+    go 0 (_:rest) = rest
+    go i (y:rest) = y : go (i-1) rest
+    go _ []       = []   -- index beyond list length
