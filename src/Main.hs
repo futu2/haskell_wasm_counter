@@ -12,6 +12,7 @@ main = undefined
 
 foreign export javascript "setup" setup :: IO ()
 
+
 setup :: IO ()
 setup = do
   putStrLn "start wasm!"
@@ -26,7 +27,7 @@ setup = do
       section_ $ counterApp
       section_ $ todoApp
 
-counterApp :: AppM m => m ()
+counterApp :: Component m => m ()
 counterApp = withSignal (0 :: Int) $ \counterSignal -> withSignal False $ \timerRun -> do
     liftIO $ void $ forkIO $ forever $ do
       threadDelay 1000000
@@ -62,24 +63,24 @@ counterApp = withSignal (0 :: Int) $ \counterSignal -> withSignal False $ \timer
 
     span_ $ do
       p_ $ do
-        useSignal counterSignal $ \n -> text_ (show n)
+        use counterSignal $ \n -> text_ (show n)
 
       p_ $ do
-        useSignal counterSignal $ \n -> text_ (show (n * 8) <> "!")
+        use counterSignal $ \n -> text_ (show (n * 8) <> "!")
 
       progress_ $ do
         setAttribute "max" "100"
-        useSignal counterSignal $ \n -> setAttribute "value" $ show n
+        use counterSignal $ \n -> setAttribute "value" $ show n
 
     h2_ $ text_ "from 1 to x"
-    reactSignal counterSignal $ \n -> do
+    react counterSignal $ \n -> do
       when (n > 2) $ ul_ $ do
         for_ [1..n] $ \x -> do
           li_ $ p_ $ text_ (show x)
 
 type TodoList = [(String, Bool)]
 
-todoApp :: AppM m => m ()
+todoApp :: Component m => m ()
 todoApp = withSignal ([] :: TodoList)  $ \ todolist -> do
   h2_ $ text_ "Todo List"
   p_ $ text_ "what u wanna add"
@@ -87,11 +88,11 @@ todoApp = withSignal ([] :: TodoList)  $ \ todolist -> do
     input_ $ do
       type_ "text"
       onInput newTodoContent const
-    reactSignal newTodoContent $ \ t -> do
+    react newTodoContent $ \ t -> do
       button_ $ do
         text_ $ "add new todo: " <> show t
         onClick todolist (<> [(t, False)])
-  reactSignal todolist $ \tds -> do
+  react todolist $ \tds -> do
     ul_ $ do
       for_ (zip [0..] tds) $ \(num, (t,tb)) -> do
         li_ $ do
